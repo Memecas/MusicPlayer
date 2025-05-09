@@ -3,40 +3,38 @@
 
 from pathlib import Path
 
-class FileExplorer(Path):
-    def __init__(self, root,current):
+class FileExplorer:
+    def __init__(self, root, current):
         
-        #Attributes
-        self._root_folder = Path(root) #root_folder_of_all_music_folders
-        root_dir = self._root_folder
-        self._current_folder = Path(current) #folder_navigated_through_subfolders 
-        curr_dir = self._current_folder
+        # Atributos
+        self._root_folder = Path(root)  # Pasta raiz onde estão as músicas
+        self._current_folder = Path(current)  # Pasta atual para navegação
+    
+    # Método para listar subpastas no diretório atual
+    def sub_folders(self):
+        subs = []
         
-        #Methods
-        def sub_folders():
-            subs = []
-            
-            for item in root_dir.iterdir():
+        for item in self._current_folder.iterdir():
+            if item.is_dir():
+                subs.append(item)  # Adiciona apenas pastas
                 
-                if item.is_dir():
-                    subs.append(item)
-                    
-                else: return None
-                
-            return subs
+        return subs  # Retorna a lista de subpastas
+
+    # Método para selecionar uma pasta e atualizar a pasta atual
+    def select_folder(self, path):
         
-        def select_folder(self,path):
+        if isinstance(path, Path) and path.is_dir():  # Verifica se path é um diretório
+            self._current_folder = path  # Atualiza a pasta atual
+
+    # Método para listar arquivos MP3 na pasta atual
+    def mp3_list(self):
+        paths = []
+        
+        for item in self._current_folder.glob('*.mp3'):
+            paths.append(item)  # Adiciona arquivos MP3 à lista
             
-            if isinstance(path,Path):
-                self._current_folder = path
-            
-        def mp3_list(self):
-            paths = []
-            
-            for item in curr_dir.glob('*.mp3'):
-                paths.append(item)
-                
-            return paths
+        return paths  # Retorna a lista de arquivos MP3
+
             
                 
         
