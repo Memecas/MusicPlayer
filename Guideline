@@ -1,0 +1,56 @@
+
+1. Music player: fase 1
+
+O objetivo desta fase do projeto é implementar as classes necessárias para um Music Player. A aplicação deve permitir selecionar ficheiros de musica para criar playlists e tocar as musicas contidas em playlists. Para procurar ficheiros no disco é criada uma classe FileExplorer, colocada num módulo file_explorer separado do resto da aplicação.
+1.1. classe FileExplorer
+
+A classe deve ter dois atributos: root_folder que contém a raíz da hierarquia de pastas onde estão as músicas e current_folder que será usado para navegar nas sub-pastas. Para a minipulação de ficheiros será usada a classe Path da biblioteca do python.
+
+Os métodos a implementar são:
+
+    o construtor recebe uma string com o valor de root_folder.
+    sub_folders: retorna uma lista de sub-folder presentes no current_folder sob forma de uma lista de Path. Dica: usar o método iterdir da classe Path.
+    select_folder recebe uma pasta (tipo Path) e inicializa o atributo current_folder com este valor.
+    mp3_list: retorna uma lista de Path que correspondem aos ficheiros com extensão mp3 na pasta current_folder. Dica: usar o método glob da classe Path.
+    get_current_folder: retorna o valor do atributo.
+    reset: inicializa o atributo current_folder com o valor de root_folder.
+    move_folder_up troca o valor de current_folder de forma a apontar para a paste que está acima de current_folder. Se a pasta corrente corresponde a root_folder, não fazer nada. Dica: o atributo parent de uma instância de Path contém a pasta de nível superior.
+
+1.2. classe Playlist
+
+A classe Playlist representa uma lista de ficheiros de música. Tem um atributo name e um atributo filename que será o ficheiro onde a lista será gravada. Deve ter a extensão m3u.
+
+Quando uma instância é criada, se o ficheiro existir, deve ser carregado para a instância, no atributo list. O format do ficheiro é simples, contém tantas linhas como ficheiros de musica. Há um ficheiro por linha. Exemplo:
+
+/Musics/R/Rolling_Stones/12_x_5/06-Its_All_Over_Now.mp3
+/Musics/R/Rolling_Stones/12_x_5/04-Time_Is_On_My_Side.mp3  
+
+Métodos a implementar:
+
+    read_from_file: lê o contúdo do ficheiro e inicializa o atributo list. Note que são armazenadas instâncias de Path e não strings.
+    save_to_file: grava o conteúdo da playlist no ficheiro.
+    getters e setter: get_name, set_name, get_filename.
+    add_music: recebe uma musica (tipo Path) e adiciona-a no fim da lista.
+
+É possível editar uma playlist. A edição consiste em alterar a ordem das músicas e eventualmente, remover músicas. para esse efeito usa-se um valor inteiro que aponta para a música corrente (inicialmente a primeira da lista). Deve criar um atributo para manter este valor. O principio de funcionamento é o seguinte:
+
+    os métodos next e previous servem para alterar a musica corrente.
+    os métodos move_up e move_down respeitivamente movem a musica corrente de uma posição em direcção do inicio e do fim da lista.
+    o método has_next serve para testar se o apontado chegou ao fim da lista. Retorna um valor boolenao.
+    o método remove_music remove a musica corrente da lista.
+
+1.3. classe PlaylistCollection
+
+A classe PlaylistCollection serve para armazenar todas as playlists criadas. É muito semelhante à classe Palylist, mas mais simples. Tem um atributo filename que é inicializado com o valor 'my_collection.dat' . Este ficheiro vai conter as playlists criadas (ficheiros com extensão m3u).
+
+Os métodos a implementar são:
+
+    read_from_file : lê as playlists do ficheiro, cria instâncias de Playlist e guarda-as no atributo playlists.
+    save_to_file: grava os nomes de ficheiros das playlists no ficheiro filename.
+    add_playlist: adiciona uma playlist ao conjunto.
+
+Deve modificar a classe obtida para a tornar iterável.
+1.4. Testes unitários
+
+De forma a verificar o correto funcionamento das classes, criar três classes de teste. Pode criar uma hierarquia de pastas na pasta do projetos para ser usada nos testes.
+
